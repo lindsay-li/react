@@ -1,25 +1,64 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import { Layout } from 'antd';
+import Menus from './layout';
+// import Nav from './components/nav';
+import {HashRouter } from 'react-router-dom';
+import ContentMain from './components/contentMain';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined
+} from '@ant-design/icons';
+
+
+const { Header, Sider, Content } = Layout;
+class App extends React.Component{
+  // constructor(){
+  //   super()
+    state = {
+      message:'hello world!',
+      collapsed:false
+    }
+    toggle = () => {
+      this.setState({
+        collapsed: !this.state.collapsed,
+      });
+    };
+
+  // }
+  render(){
+    return (
+      <HashRouter>
+      <Layout>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+          <div className="logo" />
+          <Menus></Menus>
+        </Sider>
+        <Layout className="site-layout">
+          <Header className="site-layout-background" style={{ padding: 0 }}>
+            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: this.toggle,
+            })}
+            {/* <Nav></Nav> */}
+          </Header>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              minHeight: 280,
+            }}
+          >
+           <ContentMain></ContentMain>
+          </Content>
+        </Layout>
+      </Layout>
+      </HashRouter>
+    )
+  }
 }
+
 
 export default App;
